@@ -3,18 +3,15 @@
 import requests
 import datetime
 from config import config
+import base64
 
 def languages_request():
     base_url = 'https://wakatime.com/api/v1/'
     stats_url = 'users/current/stats/last_7_days'
     api_key = config['api_key']
-    # today = datetime.date.today()
-    # week_ago = today + datetime.timedelta(days = - 7)
-    # end_day = str(today.year) + '-' +  str(today.month) + '-' +  str(today.day)
-    # start_day = str(week_ago.year) + '-' + str(week_ago.month) + '-' + str(week_ago.day)
-    # payload = {'api_key':api_key, 'start': start_day, 'end': end_day}
-    payload = {'api_key': api_key}
-    r = requests.get(base_url + stats_url, params = payload)
+    auth = base64.b64encode(config['api_key'].encode('utf-8')).decode()
+    header = {'Authorization': 'Basic {}'.format(auth)}
+    r = requests.get(base_url + stats_url, headers = header)
     data = r.json()
     return data
 

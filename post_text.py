@@ -11,7 +11,6 @@ def make_text(data):
         if i != len(languages) - 1:
             string += ","
     string += "書きました."
-    # print(string)
     return string
 
 
